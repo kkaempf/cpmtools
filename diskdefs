@@ -1851,3 +1851,39 @@ diskdef svi707
   boottrk 3
   os 2.2
 end
+
+# Genie III/IIIs CPM 2.2 "D80 DSDD"
+diskdef d80dsdd
+  seclen 1024
+  tracks 160
+  sectrk 5
+  blocksize 4096
+  maxdir 256
+  skew 0
+  boottrk 0
+  os 2.2
+end
+
+# Genie III/IIIs CPM 2.2 "S80 DSDD"
+diskdef s80dsdd
+  seclen 1024
+  tracks 160
+  sectrk 5
+  blocksize 4096
+  maxdir 256
+  skew 0
+  boottrk 4
+  os 2.2
+end
+
+# NCS Microsystem 6600
+diskdef ncs_6600
+  seclen 512
+  tracks 80
+  sectrk 15
+  blocksize 4096
+  maxdir 128
+  skew 6
+  boottrk 2
+  os 2.2
+end
