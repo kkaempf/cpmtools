@@ -335,7 +335,6 @@ static int allocBlock(const struct cpmSuperBlock *drive)
 static int readBlock(const struct cpmSuperBlock *d, int blockno, char *buffer, int start, int end)
 {
   int sect, track, counter;
-
   assert(d);
   assert(blockno>=0);
   assert(buffer);
@@ -347,6 +346,7 @@ static int readBlock(const struct cpmSuperBlock *d, int blockno, char *buffer, i
   if (end<0) end=d->blksiz/d->secLength-1;
   sect=(blockno*(d->blksiz/d->secLength)+ d->sectrk*d->boottrk)%d->sectrk;
   track=(blockno*(d->blksiz/d->secLength)+ d->sectrk*d->boottrk)/d->sectrk;
+
   for (counter=0; counter<=end; ++counter)
   {
     const char *err;
@@ -746,6 +746,17 @@ static int parseLine(struct cpmSuperBlock *d, const char *format, char *line, in
           }
         }
         else if (strcmp(argv[0],"boottrk")==0) d->boottrk=strtol(argv[1],(char**)0,0);
+        else if (strcmp(argv[0],"sidemode")==0)
+        {
+          if (strcmp(argv[1],"alternate")==0)
+            d->dev.smode = alternate;
+          else if (strcmp(argv[1],"front_first")==0)
+            d->dev.smode = front_first;
+          else {
+            fprintf(stderr, "Unknown 'sidemode': %s\n", argv[1]);
+            exit(1);
+          }
+        }
         else if (strcmp(argv[0],"offset")==0)  
         {
           off_t val;
@@ -754,7 +765,8 @@ static int parseLine(struct cpmSuperBlock *d, const char *format, char *line, in
 
           errno=0;
           multiplier=1;
-          val = strtol(argv[1],&endptr,10);
+          val = strtol(argv[1],&endptr,0);
+
           if ((errno==ERANGE && val==LONG_MAX)||(errno!=0 && val<=0))
           {
             fprintf(stderr,"%s: invalid offset value `%s' (%s) in line %d\n",cmd,argv[1],strerror(errno),ln);
@@ -1649,7 +1661,6 @@ int cpmRead(struct cpmFile *file, char *buf, int count)
   int findext=1,findblock=1,extent=-1,block=-1,extentno=-1,got=0,nextblockpos=-1,nextextpos=-1;
   int blocksize=file->ino->sb->blksiz;
   int extcap;
-
   extcap=(file->ino->sb->size<256 ? 16 : 8)*blocksize;
   if (extcap>16384) extcap=16384*file->ino->sb->extents;
   if (file->ino->ino==(ino_t)file->ino->sb->maxdir+1) /* [passwd] */ /*{{{*/

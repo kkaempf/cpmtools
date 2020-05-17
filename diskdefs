@@ -1887,3 +1887,41 @@ diskdef ncs_6600
   boottrk 2
   os 2.2
 end
+
+# Olympia-BOSS CP/M 2.2 - DSDD 48 tpi 5.25
+diskdef boss
+  seclen 512
+  tracks 40
+  sectrk 10
+  blocksize 2048
+  maxdir 128
+  skew 5
+  boottrk 3
+  os 2.2
+end
+
+# cpm80sdddz80
+diskdef cpm80sdddz80
+  seclen 512
+  tracks 80
+  sectrk 10
+  blocksize 4096
+  maxdir 128
+  skew 0
+  boottrk 0
+  os 2.2
+end
+
+# CE80_5
+diskdef ce80
+  seclen 512
+  tracks 80
+  sidemode front_first
+  sectrk 10
+  blocksize 2048
+  maxdir 128
+  skew 4
+  boottrk 1
+  offset 0x900
+  os 2.2
+end

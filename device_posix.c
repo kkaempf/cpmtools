@@ -43,14 +43,26 @@ const char *Device_close(struct Device *this)
 const char *Device_readSector(const struct Device *this, int track, int sector, char *buf)
 {
   int res;
-
+  off_t off;
   assert(this);
   assert(sector>=0);
   assert(sector<this->sectrk);
   assert(track>=0);
   assert(track<this->tracks);
   assert(buf);
-  if (lseek(this->fd,(off_t)(((sector+track*this->sectrk)*this->secLength)+this->offset),SEEK_SET)==-1) 
+  if (this->smode == front_first) {
+    int half = this->tracks/2;
+    if (track < half) {
+      track *= 2;
+      track++;
+    }
+    else {
+      track -= half;
+      track *= 2;
+    }
+  }
+  off = (off_t)(((sector+track*this->sectrk)*this->secLength)+this->offset);
+  if (lseek(this->fd,off,SEEK_SET)==-1) 
   {
     return strerror(errno);
   }

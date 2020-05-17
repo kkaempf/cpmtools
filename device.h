@@ -8,6 +8,13 @@
 #define CPMDRV_WINNT 2 /* Windows NT floppy drive accessed via CreateFile */
 #endif
 
+/* how to access the back side */
+/* image is always 'alternate' */
+typedef enum sidemode {
+  alternate,    /* alternate front/back (normal) */
+  front_first   /* front ('even' tracks in image if counting from 0) first, then back ('odd' tracks) */ 
+} sidemode;
+
 struct Device
 {
   int opened;
@@ -15,6 +22,7 @@ struct Device
   int secLength;
   int tracks;
   int sectrk;
+  sidemode smode;
   off_t offset;
 #if HAVE_LIBDSK_H
   DSK_PDRIVER   dev;
