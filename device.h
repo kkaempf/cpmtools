@@ -11,7 +11,7 @@
 /* how to access the back side */
 /* image is always 'alternate' */
 typedef enum sidemode {
-  alternate,    /* alternate front/back (normal) */
+  alternate = 0,    /* alternate front/back (normal) */
   front_first   /* front ('even' tracks in image if counting from 0) first, then back ('odd' tracks) */ 
 } sidemode;
 

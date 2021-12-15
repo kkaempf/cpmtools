@@ -335,18 +335,23 @@ static int allocBlock(const struct cpmSuperBlock *drive)
 static int readBlock(const struct cpmSuperBlock *d, int blockno, char *buffer, int start, int end)
 {
   int sect, track, counter;
+  off_t off;
   assert(d);
   assert(blockno>=0);
   assert(buffer);
   if (blockno>=d->size)
   {
+    fprintf(stderr, "Block 0x%x > Size 0x%x\n", blockno, d->size);
     boo="Attempting to access block beyond end of disk";
     return -1;
   }
   if (end<0) end=d->blksiz/d->secLength-1;
   sect=(blockno*(d->blksiz/d->secLength)+ d->sectrk*d->boottrk)%d->sectrk;
   track=(blockno*(d->blksiz/d->secLength)+ d->sectrk*d->boottrk)/d->sectrk;
-
+  off = (off_t)(((sect+track*d->sectrk)*d->secLength)+d->offset);
+#ifdef CPMFS_DEBUG
+  fprintf(stderr, "readBlock 0x%x -> track %d, sector %d => offset 0x%lx\n", blockno, track, sect, off);
+#endif
   for (counter=0; counter<=end; ++counter)
   {
     const char *err;
@@ -846,6 +851,7 @@ static int parseLine(struct cpmSuperBlock *d, const char *format, char *line, in
              (argc==2 || (argc==1 && format==NULL)))
     {
       insideDef=1;
+      d->dev.smode = alternate;
       d->skew=1;
       d->extents=0;
       d->type=CPMFS_DR22;

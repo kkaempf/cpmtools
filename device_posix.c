@@ -62,6 +62,7 @@ const char *Device_readSector(const struct Device *this, int track, int sector, 
     }
   }
   off = (off_t)(((sector+track*this->sectrk)*this->secLength)+this->offset);
+//fprintf(stderr, "readSector t %d, s %d -> 0x%lx\n", track, sector, off);
   if (lseek(this->fd,off,SEEK_SET)==-1) 
   {
     return strerror(errno);

@@ -1852,6 +1852,32 @@ diskdef svi707
   os 2.2
 end
 
+# "Turbo 3.01A" disk
+# make disk size < 512k, otherwise it would need 16-bit-extend numbers
+# => tracks 50
+diskdef t80dsdd
+  seclen 1024
+  tracks 50
+  sectrk 10
+  blocksize 2048
+  maxdir 128
+  skew 0
+  boottrk 0
+  os 2.2
+end
+
+# "pc 720k" disk
+diskdef x80dsdd
+  seclen 1024
+  tracks 160
+  sectrk 5
+  blocksize 4096
+  maxdir 256
+  skew 0
+  boottrk 6
+  os 2.2
+end
+
 # Genie III/IIIs CPM 2.2 "D80 DSDD"
 diskdef d80dsdd
   seclen 1024
@@ -1873,6 +1899,18 @@ diskdef s80dsdd
   maxdir 256
   skew 0
   boottrk 4
+  os 2.2
+end
+
+# Genie III/IIIs CPM 2.2 "S80 DSDD"
+diskdef g3_80dsdd
+  seclen 1024
+  tracks 160
+  sectrk 5
+  blocksize 4096
+  maxdir 256
+  skew 0
+  boottrk 6
   os 2.2
 end
 
@@ -1923,5 +1961,43 @@ diskdef ce80
   skew 4
   boottrk 1
   offset 0x900
+  os 2.2
+end
+
+# 'Neue Sachen'
+diskdef neue_sachen
+  seclen 256
+  tracks 200
+  sectrk 18
+  sidemode front_first
+  blocksize 2048
+  maxdir 128
+  boottrk 1
+  offset 0x2100
+  os 2.2
+end
+
+# Triumph Adler CP/M
+diskdef ta
+  seclen 256
+  tracks 77
+  sectrk 16
+  blocksize 4096
+  maxdir 128
+  boottrk 8
+  skew 3
+  offset 0
+  os 2.2
+end
+
+# Schmidtke CP/M
+diskdef schmidtke
+  seclen 1024
+  tracks 79
+  sectrk 5
+  blocksize 4096
+  maxdir 128
+  boottrk 0
+  offset 0x5a00
   os 2.2
 end
