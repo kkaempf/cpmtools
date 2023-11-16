@@ -45,7 +45,7 @@ sudo apt-get install libdsk4-dev ### OR: libdsk5-dev
 ### Get the Code
 
 ```bash
-git clone https://github.com/lipro-cpm4l/cpmtools.git
+git clone https://github.com/kkaempf/cpmtools.git
 cd cpmtools
 ```
 
